@@ -1,7 +1,7 @@
 rm(list=ls())
 library(readxl)
-cube <- read_excel("C:/Users/uni5p_000/Desktop/RMIT_Studies/Sem_2/PracticalDataScience/Assignment 2/Simplex Cube Register.xlsx", 
-                                    skip = 2)
+cube <- read_excel("C:/Users/uni5p_000/Desktop/RMIT_Studies/Machine-Learning-Projects/Cube Modeling/Simplex Cube Register.xlsx", 
+                   skip = 2)
 
 cube$Sr.No <- NULL
 cube$Remark <- NULL
@@ -11,6 +11,8 @@ cube$`Date of Casting` <- NULL
 cube$X__1 <- NULL
 cube$`Structure` <- NULL
 cube$`Location` <- NULL
+cube$`Avg. Strength in  N/mm2` <- NULL
+cube$`Comp. Strength in N/mm2` <- NULL
 
 columnsModification <- function(colname){
   i <- 1
@@ -27,11 +29,13 @@ columnsModification <- function(colname){
   return(cube)
 }
 
-colNames <- c('Concrete Grade','Age','Qty.','Concrete Source','Avg. Strength in  N/mm2','Comp. Strength in %')
+colNames <- c('Concrete Grade','Age','Qty.','Concrete Source','Comp. Strength in %')
 
 for(i in 1:length(colNames))
   cube <- columnsModification(colNames[i])
 
 cube <- cube[!cube$`Comp. Strength in %` == 0, ]
 
-write.csv(cube, file = "cube.csv", row.names=FALSE)
+cube <- cube[!cube$`Comp. Strength in %` > 200, ]
+
+write.csv(cube, file = "C:/Users/uni5p_000/Desktop/RMIT_Studies/Machine-Learning-Projects/Cube Modeling/cube.csv", row.names=FALSE)
